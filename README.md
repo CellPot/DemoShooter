@@ -1,1 +1,1 @@
-3D Shooter game demo using Unity
+3D Shooter game demo created using Unity
