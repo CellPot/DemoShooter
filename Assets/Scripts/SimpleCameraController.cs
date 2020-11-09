@@ -76,6 +76,8 @@ namespace UnityTemplateProjects
         [Tooltip("Whether or not to invert our Y axis for mouse input to rotation.")]
         public bool invertY = false;
 
+        public bool exitOnEscape = false;
+
         void OnEnable()
         {
             m_TargetCameraState.SetFromTransform(transform);
@@ -119,7 +121,7 @@ namespace UnityTemplateProjects
 #if ENABLE_LEGACY_INPUT_MANAGER
 
             // Exit Sample  
-            if (Input.GetKey(KeyCode.Escape))
+            if (Input.GetKey(KeyCode.Escape) && exitOnEscape)
             {
                 Application.Quit();
 				#if UNITY_EDITOR
