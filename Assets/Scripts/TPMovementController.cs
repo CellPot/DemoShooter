@@ -3,70 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal.VR;
 
+
 public class TPMovementController : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController;    
-    [SerializeField] private Transform targetCamera;
-    [SerializeField] private bool isBlocked = false;
+    [Header("Essential Components")]
+    [SerializeField] private CharacterController charController;    
+    [SerializeField] private Transform charCamera;
+    [Space]
+    [SerializeField] private bool MovementBlocked = false;
     [SerializeField] private float movWalkSpeed = 5f;
     [SerializeField] private float movSprintSpeed = 7f;
-    [Header("Modifies all speeds (x*=modifier)")]
+    [Tooltip("Modifies all speeds")]
     [SerializeField] private float movSpeedModifier = 1f;
-    [Header("How fast object's angle changes")]
+    [Tooltip("How fast object's angle changes")]
     [SerializeField] private float turnSmoothTime = 0.1f;
-
-
+    
+    
     private float turnSmoothVelocity;
-    private bool _hasCharacterController = false;
-    private Vector3 movDirection = Vector3.zero;
+    private Vector3 movDirection;
 
-    private void Awake()
-    {
-        if (characterController)
-            _hasCharacterController = true;
-        else
-            _hasCharacterController = gameObject.TryGetComponent(out characterController);
+    
 
-        if (!targetCamera)
-            targetCamera = Camera.main.transform;
-
-        if (!_hasCharacterController || !targetCamera)
-        {
-            Debug.LogError("Warning! CharacterController/Camera is (are) not attached to GameObject"); 
-            Debug.Break();
-        }
-    }
-
-    private bool DoesMove => movDirection.magnitude >= 0.1f;
+    private Vector3 MovementInputRaw => new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+    private bool DoesMove => !MovementBlocked && movDirection.magnitude >= 0.1f;
 
     private void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        ChangeCursorState(CursorLockMode.Locked, false);
 
-        Vector3 movInputRaw = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-        movDirection = movInputRaw.normalized;
-
-        if (DoesMove && !isBlocked)
+        movDirection = MovementInputRaw.normalized;
+        if (DoesMove)
         {
-            if (!Input.GetKey(KeyCode.LeftShift))
-                MoveCharacter(movDirection, movWalkSpeed,movSpeedModifier);
+            if (!IsPressed(KeyCode.LeftShift))
+                MoveCharacter(movDirection, movWalkSpeed, movSpeedModifier);
             else
-                MoveCharacter(movDirection, movSprintSpeed,movSpeedModifier);
+                MoveCharacter(movDirection, movSprintSpeed, movSpeedModifier);
         }
-
     }
+
     private void MoveCharacter(Vector3 direction, float speed, float speedModifier = 1)
     {
         //Получение угла направления(0:360) по его Tan: Tan d = (направление по x / по y) + угол камеры
-        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + targetCamera.eulerAngles.y;
+        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + charCamera.eulerAngles.y;
         //Сглаживание угла направления
-        float smoothedAngle = Mathf.SmoothDampAngle(characterController.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-        characterController.transform.rotation = Quaternion.Euler(0f, smoothedAngle, 0f);
+        float smoothedAngle = Mathf.SmoothDampAngle(charController.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+        charController.transform.rotation = Quaternion.Euler(0f, smoothedAngle, 0f);
         
         //Перемещение относительно угла камеры (при умножении на V3(1,1,1) угол преобразуется в направление)
         Vector3 movCamDirection = Quaternion.Euler(0f, smoothedAngle, 0f) * Vector3.forward;
-        characterController.Move(movCamDirection.normalized * speed * speedModifier * Time.deltaTime);
+        charController.Move(movCamDirection.normalized * (speed * speedModifier * Time.deltaTime));       
+    }
+    public void ChangeCursorState(CursorLockMode lockMode, bool visibility)
+    {
+        Cursor.lockState = lockMode;
+        Cursor.visible = visibility;
+    }
+    public bool IsPressed(KeyCode key)
+    {
+        if (MovementBlocked)
+            return false;
+        return Input.GetKey(key);
+    }
+    public bool IsPressedDown(KeyCode key)
+    {
+        if (MovementBlocked)
+            return false;
+        return Input.GetKeyDown(key);
     }
 
 }
