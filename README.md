@@ -1,1 +1,1 @@
-3D Shooter game demo created using Unity
+3D Shooter game demo created using Unity 2019.4.12f1 LTS

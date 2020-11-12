@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class Ammo : MonoBehaviour
 {
-    [SerializeField] private int damageInflicted;
-
+    [SerializeField] private int damageInflicted;    
     [SerializeField] private Rigidbody rigidBody;
+    [SerializeField] private float ammoVelocity;
+    [SerializeField] private float ammoActiveTime;
+
+    public bool activeSelf => gameObject.activeSelf;
+
+
+    private Rigidbody bulletRbody => rigidBody;
+    private bool IsKinematic => bulletRbody.isKinematic;
+    public Vector3 bulletPosition => gameObject.transform.position;
+
+
 
     private void Awake()
     {
         if (rigidBody == null)
-            rigidBody = gameObject.GetComponent<Rigidbody>();
+            gameObject.TryGetComponent<Rigidbody>(out rigidBody);
     }
 
 
@@ -23,14 +33,58 @@ public class Ammo : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    private IEnumerator DeactivateOnThreshold(float thresholdSeconds)
+
+
+    public void SetActive(bool state)
+    {
+        gameObject.SetActive(state);
+    }
+    public void SetActive(bool state, Vector3 position, Quaternion rotation)
+    {
+        if (state)
+        {
+            gameObject.transform.position = position;
+            gameObject.transform.rotation = rotation;
+        }
+        SetActive(state);
+    }
+
+    public void Fire(Vector3 targetPoint, float ammoVelocity, float ammoActiveTime)
+    {
+        Vector3 bulletVelocity = BulletVelocity(targetPoint, ammoVelocity);
+        //TESTING isKinematic
+        if (!IsKinematic)
+            bulletRbody.velocity = bulletVelocity;
+        else
+            StartCoroutine(CO_BulletMoveToPosition(bulletVelocity));
+        StartCoroutine(CO_DeactivateOnThreshold(ammoActiveTime));
+
+    }
+    public Vector3 BulletVelocity(Vector3 velocityVector, float ammoVelocity)
+    {
+        Vector3 velocity = velocityVector * (ammoVelocity);
+        Debug.Log("Velocity vector: " + velocity);
+        return velocity;
+    }
+    public IEnumerator CO_BulletMoveToPosition(Vector3 bulletVelocity)
+    {
+        Vector3 velocity = bulletVelocity * Time.deltaTime;
+
+        Debug.Log("Velocity vector: " + velocity);
+        while (activeSelf)
+        {
+            rigidBody.MovePosition(bulletPosition + velocity);
+            yield return new WaitForFixedUpdate();
+        }
+        yield return null;
+    }
+    public IEnumerator CO_DeactivateOnThreshold(float thresholdSeconds)
     {
         yield return new WaitForSeconds(thresholdSeconds);
         if (gameObject.activeSelf)
             gameObject.SetActive(false);
         yield return null;
     }
-
 
 
 }
