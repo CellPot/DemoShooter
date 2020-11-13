@@ -9,12 +9,11 @@ public class Ammo : MonoBehaviour
     [SerializeField] private float ammoVelocity;
     [SerializeField] private float ammoActiveTime;
 
-    public bool activeSelf => gameObject.activeSelf;
-
+    public bool ActiveSelf => gameObject.activeSelf;
+    public Vector3 BulletPosition => gameObject.transform.position;
 
     private Rigidbody bulletRbody => rigidBody;
     private bool IsKinematic => bulletRbody.isKinematic;
-    public Vector3 bulletPosition => gameObject.transform.position;
 
 
 
@@ -60,25 +59,25 @@ public class Ammo : MonoBehaviour
         StartCoroutine(CO_DeactivateOnThreshold(ammoActiveTime));
 
     }
-    public Vector3 BulletVelocity(Vector3 velocityVector, float ammoVelocity)
+    private Vector3 BulletVelocity(Vector3 velocityVector, float ammoVelocity)
     {
         Vector3 velocity = velocityVector * (ammoVelocity);
         Debug.Log("Velocity vector: " + velocity);
         return velocity;
     }
-    public IEnumerator CO_BulletMoveToPosition(Vector3 bulletVelocity)
+    private IEnumerator CO_BulletMoveToPosition(Vector3 bulletVelocity)
     {
         Vector3 velocity = bulletVelocity * Time.deltaTime;
 
         Debug.Log("Velocity vector: " + velocity);
-        while (activeSelf)
+        while (ActiveSelf)
         {
-            rigidBody.MovePosition(bulletPosition + velocity);
+            rigidBody.MovePosition(BulletPosition + velocity);
             yield return new WaitForFixedUpdate();
         }
         yield return null;
     }
-    public IEnumerator CO_DeactivateOnThreshold(float thresholdSeconds)
+    private IEnumerator CO_DeactivateOnThreshold(float thresholdSeconds)
     {
         yield return new WaitForSeconds(thresholdSeconds);
         if (gameObject.activeSelf)

@@ -21,6 +21,9 @@ public class Weapon : MonoBehaviour
     private bool _isFiring;
     private static List<Ammo> ammoPool;
 
+    public delegate void FireWeapon();
+    public event FireWeapon Fired;
+
     private void Awake()
     {
         if (!playerCamera)
@@ -52,7 +55,7 @@ public class Weapon : MonoBehaviour
         if (cameraCenterCorrection)
         {
             Vector3 targetPoint = GetTargetPoint();
-            velocityVector = (targetPoint - bullet.bulletPosition).normalized;
+            velocityVector = (targetPoint - bullet.BulletPosition).normalized;
         }
         else
             velocityVector = playerCamera.transform.forward;
@@ -63,7 +66,7 @@ public class Weapon : MonoBehaviour
     {
         foreach (Ammo bullet in ammoPool)
         {
-            if (bullet.activeSelf == false)
+            if (bullet.ActiveSelf == false)
             {
                 bullet.SetActive(true, spawnPosition, spawnRotation);
                 return bullet;

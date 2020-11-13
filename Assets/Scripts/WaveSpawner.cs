@@ -14,10 +14,10 @@ public class WaveSpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Co_Spawn(startTime,prefab,spawnRate,endTime));
+        StartCoroutine(CO_Spawn(startTime,prefab,spawnRate,endTime));
     }
 
-    private IEnumerator Co_Spawn(float startDelay, GameObject prefabToSpawn, float spawnDelay, float timeLimit)
+    private IEnumerator CO_Spawn(float startDelay, GameObject prefabToSpawn, float spawnDelay, float timeLimit)
     {
         yield return new WaitForSeconds(startDelay);
         float totalTime = Time.time;
