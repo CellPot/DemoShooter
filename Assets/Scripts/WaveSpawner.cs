@@ -12,9 +12,15 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private float endTime;
     [SerializeField] private float spawnRate;
 
+    private Coroutine Spawner;
+
+    private void Awake()
+    {
+    }
     private void Start()
     {
-        StartCoroutine(CO_Spawn(startTime,prefab,spawnRate,endTime));
+        WaveManager.instance.AddWave(this);
+        Spawner = StartCoroutine(CO_Spawn(startTime,prefab,spawnRate,endTime));
     }
 
     private IEnumerator CO_Spawn(float startDelay, GameObject prefabToSpawn, float spawnDelay, float timeLimit)
@@ -27,6 +33,12 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnDelay);
             totalTime = Time.time;
         }
+        WaveManager.instance.RemoveWave(this);
         yield return null;
+    }
+    private void OnDestroy()
+    {
+        
+
     }
 }
