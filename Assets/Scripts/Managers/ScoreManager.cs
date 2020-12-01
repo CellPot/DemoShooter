@@ -8,7 +8,21 @@ namespace DemoShooter.Managers
     {
         [SerializeField] private int scoreAmount;
         public static ScoreManager instance;
-        public int ScoreAmount { get => scoreAmount; set => scoreAmount = value;  }
+        
+        public delegate void ScoreChangeHandler();
+
+        public event ScoreChangeHandler OnScoreChanged;
+
+        public int ScoreAmount
+        {
+            get => scoreAmount;
+            set
+            {
+             scoreAmount = value;
+             OnScoreChanged?.Invoke();
+            }
+                
+        }
 
         private void Awake()
         {

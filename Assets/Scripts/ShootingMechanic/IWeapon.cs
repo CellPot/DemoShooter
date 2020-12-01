@@ -1,4 +1,6 @@
-﻿namespace DemoShooter.ShootingMechanic
+﻿using System;
+
+namespace DemoShooter.ShootingMechanic
 {
     public interface IWeapon
     {

@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DemoShooter.ShootingMechanic
 {
-    public class RifleWeapon : MonoBehaviour/*, IWeapon*/
+    public class RifleWeapon : MonoBehaviour, IWeapon
     {
         [SerializeField] private Ammo ammoPrefab;
         [SerializeField] private Camera playerCamera;
@@ -22,11 +23,17 @@ namespace DemoShooter.ShootingMechanic
         [SerializeField] private float ammoVelocityModifier = 1;
         [SerializeField] private int ammoPoolSize = 30;
         [SerializeField] private float ammoActiveTime = 3f;
+        [SerializeField] private int totalAmmo = 10;
         
         private IDestinationCalculator _destinationCalc;
         private IAmmoPoolManager _ammoPoolManager;
         private static List<Ammo> _ammoPool;
         private bool _isFiring = false;
+
+        public int TotalAmmo => totalAmmo;
+
+        public delegate void AmmoSpendHandler();
+        public event AmmoSpendHandler OnAmmoSpent;
 
         private void Awake()
         {
@@ -36,6 +43,10 @@ namespace DemoShooter.ShootingMechanic
             _destinationCalc = gameObject.GetComponent<IDestinationCalculator>();
             _ammoPool = new List<Ammo>();
             _ammoPool = _ammoPoolManager.CreateAmmoPool(ammoPrefab, ammoPoolSize, ammoNestingObject);
+        }
+
+        private void Start()
+        {
         }
 
         private void FixedUpdate()
@@ -49,11 +60,15 @@ namespace DemoShooter.ShootingMechanic
 
         public void FireWeapon()
         {
-            _isFiring = true;
+            if (totalAmmo > 0)
+            {
+                _isFiring = true;
+            }
         }
 
         private void ShootAmmo()
         {
+            SpendAmmo();
             Ammo ammo = _ammoPoolManager.PullAmmo(_ammoPool, ammoInitialPoint.position, playerCamera.transform.rotation);
             Vector3 targetVector;
             if (cameraCenterCorrection)
@@ -63,6 +78,13 @@ namespace DemoShooter.ShootingMechanic
                 targetVector = referencePosition.forward;
             ammo.FireAmmo(targetVector, ammoActiveTime, ammoVelocityModifier);
         }
+
+        private void SpendAmmo()
+        {
+            totalAmmo--;
+            OnAmmoSpent?.Invoke();
+        }
+        
 
         private void OnDestroy()
         {

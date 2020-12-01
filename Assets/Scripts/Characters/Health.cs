@@ -10,19 +10,21 @@ namespace DemoShooter.Characters
 
         public delegate void ZeroHealthHandler();
         public event ZeroHealthHandler OnZeroHealth;
-        //public UnityEvent onDeath;
+
+        public delegate void HealthChangeHandler();
+
+        public event HealthChangeHandler OnHealthChange;
         public float HealthValue
         {
             get => healthValue;
             set
             {
                 healthValue = value >= 0f ? Mathf.Min(value, maxHealthValue) : 0f;
-                ////
                 if (healthValue <= 0f)
                 {
                     OnZeroHealth?.Invoke();
                 }
-                ////
+                OnHealthChange?.Invoke();
             }
         }
 
