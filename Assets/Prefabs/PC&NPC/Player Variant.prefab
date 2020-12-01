@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1155907509}
   - component: {fileID: 1155907512}
   - component: {fileID: 1155907511}
-  - component: {fileID: 1155907510}
   m_Layer: 9
   m_Name: WeaponEnd
   m_TagString: Untagged
@@ -80,27 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1155907510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1155907508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f14276f7a51e04e4aa28df589647f1c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
-  ammoPrefab: {fileID: 1795920803791578520, guid: 15bbb1739a854f44d9bdf3d7794d97a1,
-    type: 3}
-  ammoStartPoint: {fileID: 1155907508}
-  ammoHolder: {fileID: 0}
-  cameraCenterCorrection: 1
-  ammoVelocity: 30
-  ammoPoolSize: 20
-  ammoActiveTime: 1.5
 --- !u!143 &1424402756
 CharacterController:
   m_ObjectHideFlags: 0
@@ -119,38 +97,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &1424402758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6763326839384754817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c02f46d4505c4e47946e32d7783a5cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charController: {fileID: 1424402756}
-  charCamera: {fileID: 0}
-  MovementBlocked: 0
-  movWalkSpeed: 5
-  movSprintSpeed: 7
-  movSpeedModifier: 1
-  turnSmoothTime: 0.1
---- !u!114 &45674576346792106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6763326839384754817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4a37d07dd9f0a54fb3b6f368b79c834, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lifeAmount: 100
 --- !u!1001 &3386079077963895688
 PrefabInstance:
   m_ObjectHideFlags: 0

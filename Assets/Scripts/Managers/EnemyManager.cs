@@ -1,32 +1,40 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using DemoShooter.Characters;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public class EnemyManager : MonoBehaviour
+namespace DemoShooter.Managers
 {
-    public static EnemyManager instance;
+    public class EnemyManager : MonoBehaviour
+    {
+        public delegate void EnemyListChangeHandler();
+        public event EnemyListChangeHandler OnEnemyListChanged;
+        
+        public static EnemyManager instance;
 
-    [SerializeField] private List<Enemy> _enemies;
-    public List<Enemy> Enemies { get => _enemies; }
-    public UnityEvent onChanged;
+        [SerializeField] private List<Enemy> enemies;
+        public List<Enemy> Enemies => enemies;
+        
 
-    private void Awake()
-    {
-        _enemies = new List<Enemy>();
-        if (instance == null)
-            instance = this;
-        else
-            Debug.LogError("Duplicated EnemyManager", gameObject);
-    }
-    public void AddEnemy(Enemy enemy)
-    {
-        _enemies.Add(enemy);
-        onChanged.Invoke();
-    }
-    public void RemoveEnemy(Enemy enemy)
-    {
-        _enemies.Remove(enemy);
-        onChanged.Invoke();
+        private void Awake()
+        {
+            enemies = new List<Enemy>();
+            if (instance == null)
+                instance = this;
+            else
+                Debug.LogWarning("Duplicated EnemyManager is ignored", gameObject);
+        }
+        public void AddEnemy(Enemy enemy)
+        {
+            enemies.Add(enemy);
+            OnEnemyListChanged?.Invoke();
+        }
+        public void RemoveEnemy(Enemy enemy)
+        {
+            enemies.Remove(enemy);
+            OnEnemyListChanged?.Invoke();
+        }
     }
 }

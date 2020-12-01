@@ -1,19 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class ScoreManager : MonoBehaviour
+namespace DemoShooter.Managers
 {
-    public static ScoreManager instance;
-
-    [SerializeField] private int _amount;
-    public int Amount { get => _amount; set { _amount = value; Debug.Log($"New Score: {_amount}"); } }
-
-    private void Awake()
+    public class ScoreManager : MonoBehaviour
     {
-        if (instance == null)
-            instance = this;
-        else
-            Debug.LogError("Duplicated ScoreManager", gameObject);
+        [SerializeField] private int scoreAmount;
+        public static ScoreManager instance;
+        public int ScoreAmount { get => scoreAmount; set => scoreAmount = value;  }
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+            else
+                Debug.LogWarning("Duplicated ScoreManager is ignored", gameObject);
+        }
     }
 }
