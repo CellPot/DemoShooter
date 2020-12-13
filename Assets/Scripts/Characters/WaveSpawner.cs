@@ -12,6 +12,7 @@ namespace DemoShooter.Characters
         [SerializeField] private float startDelay;
         [SerializeField] private float timeLimit;
         [SerializeField] private float spawnRate;
+        [SerializeField] private bool canSpawn = true;
 
         private void Start()
         {
@@ -21,7 +22,8 @@ namespace DemoShooter.Characters
 
         private void StartSpawning()
         {
-            StartCoroutine(SpawnCoroutine());
+            if (canSpawn)
+                StartCoroutine(SpawnCoroutine());
         }
 
         private IEnumerator SpawnCoroutine()

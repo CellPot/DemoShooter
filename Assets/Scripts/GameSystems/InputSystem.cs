@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using DemoShooter.Managers;
 using Packages.Rider.Editor.UnitTesting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace DemoShooter.GameSystems
 {
 
     public class InputSystem : MonoBehaviour
     {
-        [SerializeField] private bool isMovementBlocked;
-        [SerializeField] private bool isShootingBlocked;
+        [SerializeField] private bool isMovementInputBlocked;
+        [SerializeField] private bool isShootingInputBlocked;
         public delegate void PlayerMovementHandler(Vector3 movementInputRaw, bool sprintMode);
         public event PlayerMovementHandler OnPlayerMoved;
         public delegate void PlayerShootingHandler();
         public event PlayerShootingHandler OnPlayerShot; 
+        public delegate void KeyPressedHandler();
+        public event KeyPressedHandler OnEscapePressedDown;
 
         private void Update()
         {
-            if (!isMovementBlocked)
-                PlayerMoved();
-            if (!isShootingBlocked)
-                PlayerShot();
+            if (!isMovementInputBlocked)
+                PlayerMovementCheck();
+            if (!isShootingInputBlocked)
+                PlayerShootingCheck();
+            EscapePressedCheck();
         }
-        private void PlayerMoved()
+        private void PlayerMovementCheck()
         {
             Vector3 movementInputRaw = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
             if (movementInputRaw != Vector3.zero)
@@ -32,18 +37,26 @@ namespace DemoShooter.GameSystems
                 OnPlayerMoved?.Invoke(movementInputRaw, KeyManager.IsPressed(KeyCode.LeftShift));
             }
         }
-        private void PlayerShot()
+        private void PlayerShootingCheck()
         {
-            if (KeyManager.IsPressedDown(KeyCode.Mouse0))
+            if (KeyManager.IsPressed(KeyCode.Mouse0)) 
             {
                 OnPlayerShot?.Invoke();
             }
         }
 
-        public void BlockControls(bool movementBlock, bool shootingBlock)
+        private void EscapePressedCheck()
         {
-            isMovementBlocked = movementBlock;
-            isShootingBlocked = shootingBlock;
+            if (KeyManager.IsPressedDown(KeyCode.Escape))
+            {
+                OnEscapePressedDown?.Invoke();
+            }
+        }
+
+        public void BlockControlsInput(bool movementBlock, bool shootingBlock)
+        {
+            isMovementInputBlocked = movementBlock;
+            isShootingInputBlocked = shootingBlock;
         }
     }
 

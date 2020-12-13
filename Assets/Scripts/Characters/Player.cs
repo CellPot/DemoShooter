@@ -8,7 +8,7 @@ namespace DemoShooter.Characters
     public class Player : Character
     {
         [SerializeField] private InputSystem inputSystem;
-        [SerializeField] private RifleWeapon playerWeapon;
+        [SerializeField] private Weapon playerWeapon;
 
         protected override void Awake()
         {

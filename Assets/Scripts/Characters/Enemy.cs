@@ -1,16 +1,21 @@
 ﻿using DemoShooter.Managers;
+using DemoShooter.ShootingMechanic;
+using UnityEngine;
 
 namespace DemoShooter.Characters
 {
     public class Enemy : Character
     {
+        [SerializeField] private Weapon weapon;
+
         private void Start()
         {
             EnemyManager.instance.AddEnemy(this);
         }
         public override void Attack()
         {
-            throw new System.NotImplementedException();
+            weapon.FireWeapon();
+            Debug.Log("Attacking",gameObject);
         }
         private void OnDestroy()
         {

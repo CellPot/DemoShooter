@@ -87,6 +87,16 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5943144596908956386, guid: 15bbb1739a854f44d9bdf3d7794d97a1,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5943144596908956386, guid: 15bbb1739a854f44d9bdf3d7794d97a1,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5809085416925247088, guid: 15bbb1739a854f44d9bdf3d7794d97a1, type: 3}
     - {fileID: 1795920803791578520, guid: 15bbb1739a854f44d9bdf3d7794d97a1, type: 3}

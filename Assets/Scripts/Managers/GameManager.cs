@@ -38,7 +38,7 @@ namespace DemoShooter.Managers
         private void Update()
         {
             if (!_isFinished) return;
-            inputSystem.BlockControls(true,true);
+            inputSystem.BlockControlsInput(true,true);
         }
 
         private void OnDestroy()

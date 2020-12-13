@@ -7,18 +7,18 @@ namespace DemoShooter.UI
 {
     public class PlayerBulletsUI : MonoBehaviour
     {
-        [SerializeField] private RifleWeapon weapon;
+        [SerializeField] private Weapon weapon;
         [SerializeField] private TMP_Text bulletsText;
 
         private void Start()
         {
             ChangeBulletsText();
-            weapon.OnAmmoSpent += ChangeBulletsText;
+            weapon.OnShotFired += ChangeBulletsText;
         }
 
         private void OnDestroy()
         {
-            weapon.OnAmmoSpent -= ChangeBulletsText;
+            weapon.OnShotFired -= ChangeBulletsText;
         }
 
         private void ChangeBulletsText()
