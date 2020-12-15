@@ -11,6 +11,7 @@ namespace DemoShooter.Managers
         [SerializeField] private Health playerHealth;
         [SerializeField] private Health playerBaseHealth;
         [SerializeField] private InputSystem inputSystem;
+        [SerializeField] private bool gameCanFinish = true;
 
         public delegate void GameFinishHandler();
         public event GameFinishHandler OnGameWon;
@@ -52,25 +53,25 @@ namespace DemoShooter.Managers
         private void OnPlayerZeroHealth()
         {
             if (_isFinished) return;
+            if (!gameCanFinish) return;
             OnGameLost?.Invoke();
-            Debug.Log("Game's lost: player's health hit 0");
             _isFinished = true;
         }
 
         private void OnBaseZeroHealth()
         {
+            if (!gameCanFinish) return;
             if (_isFinished) return;
             OnGameLost?.Invoke();
-            Debug.Log("Game's lost: Base's health hit 0");
             _isFinished = true;
         }
         
         private void WinningStateCheck()
         {
             if (_isFinished) return;
+            if (!gameCanFinish) return;
             if (EnemyManager.instance.Enemies.Count > 0 || WaveManager.instance.Waves.Count > 0) return;
             OnGameWon?.Invoke();
-            Debug.Log("Game's won: 0 enemies and waves");
             _isFinished = true;
         }
         

@@ -38,7 +38,8 @@ namespace DemoShooter.AI
 
         private void Start()
         {
-            _baseTransform = BaseManager.instance.baseTransform;
+            if (BaseManager.instance.baseTransform!=null)
+                _baseTransform = BaseManager.instance.baseTransform;
         }
 
         private void Update()
@@ -64,13 +65,13 @@ namespace DemoShooter.AI
 
         private void AttackPlayer()
         {
-            if (sightSensor.detectedObject == null)
+            if (sightSensor.DetectedObject == null)
             {
                 currentState = EnemyState.GoToBase;
                 return;
             }
         
-            Vector3 detectedObjPosition = sightSensor.detectedObject.transform.position;
+            Vector3 detectedObjPosition = sightSensor.DetectedObject.transform.position;
 
             _movementController.StopCharacter();
             _movementController.RotateCharacter(detectedObjPosition,attackRotationDamp);
@@ -86,13 +87,13 @@ namespace DemoShooter.AI
         private void ChasePlayer()
         {
             _movementController.StopCharacter(false);
-            if (sightSensor.detectedObject == null)
+            if (sightSensor.DetectedObject == null)
             {
                 currentState = EnemyState.GoToBase;
                 return;
             }
 
-            Vector3 detectedObjPosition = sightSensor.detectedObject.transform.position;
+            Vector3 detectedObjPosition = sightSensor.DetectedObject.transform.position;
             _movementController.MoveCharacter(detectedObjPosition);
 
             float distanceToPlayer = Vector3.Distance(transform.position, detectedObjPosition);
@@ -105,25 +106,32 @@ namespace DemoShooter.AI
         private void AttackBase()
         {
             _movementController.StopCharacter();
-            if (_baseTransform!=null)
+            if (_baseTransform != null)
+            {
                 _movementController.RotateCharacter(_baseTransform.position,attackRotationDamp);
-            _enemy.Attack();
+                _enemy.Attack();
+            }
         }
 
         private void GoToBase()
         {
-            _movementController.StopCharacter(false);
-            if (_baseTransform!=null)
-                _movementController.MoveCharacter(_baseTransform.position);
-        
-            if (sightSensor.detectedObject != null)
+            if (sightSensor.DetectedObject != null)
             {
                 CurrentState = EnemyState.ChasePlayer;
             }
+            _movementController.StopCharacter(false);
+            if (_baseTransform!=null)
+            {   
+                _movementController.MoveCharacter(_baseTransform.position);
+                float distanceToBase = Vector3.Distance(transform.position,  _baseTransform.position);
+                if (distanceToBase <= baseAttackDistance)
+                    currentState = EnemyState.AttackBase;
+            }
+            else
+            {
+                _movementController.StopCharacter(true);
+            }
 
-            float distanceToBase = Vector3.Distance(transform.position,  BaseManager.instance.baseTransform.position);
-            if (distanceToBase <= baseAttackDistance)
-                currentState = EnemyState.AttackBase;
 
         }
     }

@@ -7,7 +7,6 @@ namespace DemoShooter.Characters
     public abstract class Character : MonoBehaviour, ICanAttack
     {
         private Health _objHealth;
-        // private IScore _scoreOnDeathGiver;
         protected virtual void Awake()
         {
             _objHealth = GetComponent<Health>();

@@ -11,12 +11,18 @@ namespace DemoShooter.AI
         [SerializeField] private LayerMask detectLayers;
         [SerializeField] private LayerMask obstacleLayers;
 
-        public Collider detectedObject;
+        [SerializeField] private Collider detectedObject;
+
+        public Collider DetectedObject => detectedObject;
+        private static Collider[] _detectedObjects = new Collider[100];
+        
         private void Update()
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, viewDistance, detectLayers);
+            // Collider[] colliders = Physics.OverlapSphere(transform.position, viewDistance, detectLayers);
+            int detectedAmount =
+                Physics.OverlapSphereNonAlloc(transform.position, viewDistance, _detectedObjects, detectLayers);
             detectedObject = null;
-            SetDetectedObject(colliders);
+            SetDetectedObject(_detectedObjects,detectedAmount);
         }
 
         private void OnDrawGizmosSelected()
@@ -30,25 +36,27 @@ namespace DemoShooter.AI
             Gizmos.DrawRay(transform.position,leftViewAngleBorder*viewDistance);
         }
 
-        private void SetDetectedObject(Collider[] colliders)
+        private void SetDetectedObject(Collider[] colliders, int detectedCount)
         {
-            foreach (Collider collidedObject in colliders)
+            for (var i = 0; i < detectedCount; i++)
             {
+                Collider collidedObject = colliders[i];
                 Vector3 directionToCollider = Vector3.Normalize(collidedObject.bounds.center - transform.position);
                 float angleToCollider = Vector3.Angle(transform.forward, directionToCollider);
                 if (angleToCollider < viewAngle)
                 {
                     RaycastHit hit;
-                    if (!IsViewBlocked(collidedObject,out hit))
+                    if (!IsViewBlocked(collidedObject, out hit))
                     {
-                        Debug.DrawLine(transform.position,collidedObject.bounds.center,Color.green);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                        Debug.DrawLine(transform.position, collidedObject.bounds.center, Color.green);
+#endif
                         detectedObject = collidedObject;
                         break;
                     }
-                    else
-                    {
-                        Debug.DrawLine(transform.position,hit.point,Color.red);
-                    }
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                    Debug.DrawLine(transform.position, hit.point, Color.red);
+#endif
                 }
             }
         }

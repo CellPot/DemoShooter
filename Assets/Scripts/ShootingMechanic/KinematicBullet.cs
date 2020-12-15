@@ -33,24 +33,13 @@ namespace DemoShooter.ShootingMechanic
             yield return null;
         }
 
-        // private void OnCollisionEnter(Collision other)
-        // {
-        //     var otherHealth = other.gameObject.GetComponent<Health>();
-        //     if (otherHealth != null)
-        //     {
-        //         _damageOnContact.Damage(DamageInflicted, otherHealth);
-        //         Debug.Log($"{otherHealth.gameObject}'s health: {otherHealth.HealthValue}/{otherHealth.MaxHealthValue}");
-        //     }
-        //     gameObject.SetActive(false);
-        // }
-
         private void OnTriggerEnter(Collider other)
         {
             var otherHealth = other.gameObject.GetComponent<Health>();
             if (otherHealth != null)
             {
                 _damageOnContact.Damage(DamageInflicted, otherHealth);
-                Debug.Log($"{otherHealth.gameObject}'s health: {otherHealth.HealthValue}/{otherHealth.MaxHealthValue}");
+                
             }
             gameObject.SetActive(false);
         }

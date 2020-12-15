@@ -35,7 +35,6 @@ namespace DemoShooter.AnimationControllers
         private void Update()
         {
             SetHorizontalVelocityState();
-            // SetShootingState();
         }
 
         private void SetHorizontalVelocityState()

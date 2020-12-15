@@ -96,7 +96,12 @@ namespace DemoShooter.ShootingMechanic
         }
         private void OnDestroy()
         {
-            _ammoPool = null;
+            foreach (Ammo ammo in _ammoPool)
+            {
+                if (ammo!=null)
+                    Destroy(ammo.gameObject);
+            }
+            // _ammoPool = null;
         }
     }
 }

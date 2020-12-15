@@ -32,7 +32,7 @@ namespace DemoShooter.ShootingMechanic
             if (otherHealth != null)
             {
                 _damageOnContact.Damage(DamageInflicted, otherHealth);
-                Debug.Log($"{otherHealth.gameObject}'s health: {otherHealth.HealthValue}/{otherHealth.MaxHealthValue}");
+                // Debug.Log($"{otherHealth.gameObject}'s health: {otherHealth.HealthValue}/{otherHealth.MaxHealthValue}");
             }
             gameObject.SetActive(false);
         }

@@ -11,8 +11,8 @@ namespace DemoShooter.ShootingMechanic
         }
         public void SetActiveState(bool state,Vector3 position,Quaternion rotation)
         {
-            SetActiveState(state);
             _objectToSet.transform.SetPositionAndRotation(position,rotation);
+            SetActiveState(state);
         }
         public void SetActiveState(bool state)
         {

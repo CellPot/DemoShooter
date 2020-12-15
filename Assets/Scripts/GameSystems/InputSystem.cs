@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DemoShooter.Managers;
-using Packages.Rider.Editor.UnitTesting;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 namespace DemoShooter.GameSystems
 {

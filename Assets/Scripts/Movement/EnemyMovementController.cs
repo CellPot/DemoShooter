@@ -25,15 +25,10 @@ namespace DemoShooter.Movement
             if (_navMeshAgent==null) return;
             _navMeshAgent.acceleration = agentAcceleration;
             _navMeshAgent.angularSpeed = agentAngularSpeed;
-            // _navMeshAgent.speed = isSprinting ? movSprintSpeed : movWalkSpeed;
             _navMeshAgent.speed = movWalkSpeed;
         
             agentAcceleration = _navMeshAgent.acceleration;
             agentAngularSpeed = _navMeshAgent.angularSpeed;
-            // if (isSprinting)
-            //     movSprintSpeed = _navMeshAgent.speed;
-            // else
-            //     movWalkSpeed = _navMeshAgent.speed;
             movWalkSpeed = _navMeshAgent.speed;
         }
 

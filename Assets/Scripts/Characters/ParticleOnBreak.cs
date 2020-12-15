@@ -23,7 +23,7 @@ namespace DemoShooter.Characters
 
         public void OnObjectBreak()
         {
-            var x = Instantiate(particlePrefab, effectInitialPoint.position, effectInitialPoint.rotation);
+            Instantiate(particlePrefab, effectInitialPoint.position, effectInitialPoint.rotation);
         }
     }
 }

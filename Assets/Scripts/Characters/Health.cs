@@ -61,8 +61,6 @@ namespace DemoShooter.Characters
             HealthValue = healthValue;
             maxHealthValue = MaxHealthValue;
             healthValue = HealthValue;
-            // if (_scoreOnDeathGiver != null)
-            //     _scoreOnDeathGiver.ScoreOnDestroy = _scoreOnDeath;
         }
     }
 }

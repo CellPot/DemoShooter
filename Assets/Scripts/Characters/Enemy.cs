@@ -15,7 +15,6 @@ namespace DemoShooter.Characters
         public override void Attack()
         {
             weapon.FireWeapon();
-            Debug.Log("Attacking",gameObject);
         }
         private void OnDestroy()
         {
