@@ -11,6 +11,11 @@ namespace DemoShooter.UI
         [SerializeField] private GameObject finishPanel;
         [SerializeField] private TMP_Text finishText;
 
+        private void Awake()
+        {
+            ActivatePanel(false);
+        }
+
         private void Start()
         {
             GameManager.instance.OnGameWon += ActivateWinState;

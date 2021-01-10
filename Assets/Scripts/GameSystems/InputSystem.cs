@@ -9,10 +9,15 @@ namespace DemoShooter.GameSystems
         [SerializeField] private bool isShootingInputBlocked;
         public delegate void PlayerMovementHandler(Vector3 movementInputRaw, bool sprintMode);
         public event PlayerMovementHandler OnPlayerMoved;
-        public delegate void PlayerShootingHandler();
-        public event PlayerShootingHandler OnPlayerShot; 
         public delegate void KeyPressedHandler();
+        public event KeyPressedHandler OnPlayerShot; 
         public event KeyPressedHandler OnEscapePressedDown;
+        public event KeyPressedHandler OnPlayerAimed;
+
+        private bool _isMoving = false;
+
+        public bool IsMovementBlocked => isMovementInputBlocked;
+        public bool IsShootingBlocked => isShootingInputBlocked;
 
         private void Update()
         {
@@ -21,6 +26,9 @@ namespace DemoShooter.GameSystems
             if (!isShootingInputBlocked)
                 PlayerShootingCheck();
             EscapePressedCheck();
+            
+            if (!_isMoving)
+                PlayerAimingCheck();
         }
         private void PlayerMovementCheck()
         {
@@ -28,6 +36,11 @@ namespace DemoShooter.GameSystems
             if (movementInputRaw != Vector3.zero)
             {
                 OnPlayerMoved?.Invoke(movementInputRaw, KeyManager.IsPressed(KeyCode.LeftShift));
+                _isMoving = true;
+            }
+            else
+            {
+                _isMoving = false;
             }
         }
         private void PlayerShootingCheck()
@@ -35,6 +48,14 @@ namespace DemoShooter.GameSystems
             if (KeyManager.IsPressed(KeyCode.Mouse0)) 
             {
                 OnPlayerShot?.Invoke();
+            }
+        }
+
+        private void PlayerAimingCheck()
+        {
+            if (KeyManager.IsPressed(KeyCode.Mouse1))
+            {
+                OnPlayerAimed?.Invoke();
             }
         }
 

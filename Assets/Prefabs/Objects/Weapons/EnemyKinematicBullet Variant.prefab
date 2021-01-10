@@ -12,6 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a18a9e314943e19b502fdd0f4e7ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &305277550584746556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815026171546111239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57cae81aa8f86a42b99a114dc466015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layersToTrigger:
+    serializedVersion: 2
+    m_Bits: 7943
+  particlePrefab: {fileID: 3395277213907615723, guid: 43fc3039efcb5794ebabd7ffd4c94cc3,
+    type: 3}
 --- !u!114 &1414834003754148733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,9 +68,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendTriggerMessage: 0
-  layerMask:
+  layersToCheck:
     serializedVersion: 2
-    m_Bits: 2871
+    m_Bits: 7943
   skinWidth: 0.1
 --- !u!1001 &2976573588134904311
 PrefabInstance:
@@ -140,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 4988410647431892208, guid: 97f5b4f0b77ce1149af4172ad48620ce,
         type: 3}
       propertyPath: m_Name
-      value: EnemyKinematicBullet Variant 1
+      value: EnemyKinematicBullet Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4988410647431892209, guid: 97f5b4f0b77ce1149af4172ad48620ce,
         type: 3}

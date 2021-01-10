@@ -11,10 +11,6 @@ namespace DemoShooter.Characters
         {
             _objHealth = GetComponent<Health>();
         }
-        public virtual void OnDamage(float damageDealt)
-        {
-            _objHealth.ChangeHealth(-damageDealt);
-        }
 
         public abstract void Attack();
     }

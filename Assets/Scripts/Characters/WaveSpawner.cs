@@ -9,6 +9,7 @@ namespace DemoShooter.Characters
     {
     
         [SerializeField] private GameObject prefabToSpawn;
+        [SerializeField] private GameObject particlePrefab;
         [SerializeField] private float startDelay;
         [SerializeField] private float timeLimit;
         [SerializeField] private float spawnRate;
@@ -33,7 +34,11 @@ namespace DemoShooter.Characters
             float totalTime = 0;
             while (!TimeIsUp(totalTime,timeLimit))
             {
-                GameObject spawnedObject = Instantiate(prefabToSpawn, transform.position, transform.rotation);
+                if (!GameManager.instance.IsFinished)
+                {
+                    GameObject spawnedObject = Instantiate(prefabToSpawn, transform.position, transform.rotation);
+                    Instantiate(particlePrefab, spawnedObject.transform.position, spawnedObject.transform.rotation);
+                }
                 totalTime = Time.time - initialTime;
                 if (TimeIsUp(totalTime,timeLimit))
                     break;

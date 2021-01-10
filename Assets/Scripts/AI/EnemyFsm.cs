@@ -13,6 +13,7 @@ namespace DemoShooter.AI
     [RequireComponent(typeof(EnemyMovementController))]
     public class EnemyFsm : MonoBehaviour
     {
+        [SerializeField] private bool isActive = true;
         [SerializeField] private EnemyState currentState;
         [SerializeField] private SightAI sightSensor;
         [SerializeField] private float baseAttackDistance;
@@ -44,6 +45,11 @@ namespace DemoShooter.AI
 
         private void Update()
         {
+            if (GameManager.instance.IsFinished)
+            {
+                isActive = false;
+                CurrentState = EnemyState.Stop;
+            }
             switch (CurrentState)
             {
                 case EnemyState.GoToBase:
@@ -58,6 +64,9 @@ namespace DemoShooter.AI
                 case EnemyState.AttackPlayer:
                     AttackPlayer();
                     return;
+                case EnemyState.Stop:
+                    Stop();
+                    return;
                 default:
                     return;
             }
@@ -65,6 +74,8 @@ namespace DemoShooter.AI
 
         private void AttackPlayer()
         {
+            if (!isActive) return;
+            
             if (sightSensor.DetectedObject == null)
             {
                 currentState = EnemyState.GoToBase;
@@ -86,6 +97,8 @@ namespace DemoShooter.AI
 
         private void ChasePlayer()
         {
+            if (!isActive) return;
+            
             _movementController.StopCharacter(false);
             if (sightSensor.DetectedObject == null)
             {
@@ -105,6 +118,8 @@ namespace DemoShooter.AI
 
         private void AttackBase()
         {
+            if (!isActive) return;
+            
             _movementController.StopCharacter();
             if (_baseTransform != null)
             {
@@ -115,6 +130,8 @@ namespace DemoShooter.AI
 
         private void GoToBase()
         {
+            if (!isActive) return;
+            
             if (sightSensor.DetectedObject != null)
             {
                 CurrentState = EnemyState.ChasePlayer;
@@ -131,12 +148,21 @@ namespace DemoShooter.AI
             {
                 _movementController.StopCharacter(true);
             }
-
-
         }
+
+        private void Stop()
+        {
+            if (!isActive)
+                _movementController.StopCharacter();
+            else
+            {
+                CurrentState = EnemyState.ChasePlayer;
+            }
+        }
+
     }
     public enum EnemyState
     {
-        GoToBase, AttackBase, ChasePlayer, AttackPlayer
+        GoToBase, AttackBase, ChasePlayer, AttackPlayer, Stop
     }
 }

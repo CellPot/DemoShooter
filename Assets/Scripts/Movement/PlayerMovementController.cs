@@ -32,6 +32,8 @@ namespace DemoShooter.Movement
             }
         }
 
+        public bool CanMove => !inputSystem.IsMovementBlocked;
+
         private bool _isMoving;
 
         public delegate void PlayerVelocityChangeHandler();
@@ -55,12 +57,17 @@ namespace DemoShooter.Movement
 
         private void MoveCharacter(Vector3 movDirection, bool isSprinting)
         {
-            if (!canMove) return;
+            if (!CanMove) return;
             float smoothedMovementAngle = GetSmoothedTargetAngle(movDirection.normalized);
-            _charController.transform.rotation = Quaternion.Euler(0f, smoothedMovementAngle, 0f);
+            RotateCharacter(smoothedMovementAngle);
             Vector3 cameraDirecion = Quaternion.Euler(0f, smoothedMovementAngle, 0f) * Vector3.forward;
             StartCoroutine(Walk(cameraDirecion,isSprinting));
             
+        }
+
+        public void RotateCharacter(float smoothedMovementAngle)
+        {
+            _charController.transform.rotation = Quaternion.Euler(0f, smoothedMovementAngle, 0f);
         }
 
         private float GetSmoothedTargetAngle(Vector3 normalDirection)

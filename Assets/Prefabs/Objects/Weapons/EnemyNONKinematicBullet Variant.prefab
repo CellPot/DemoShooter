@@ -38,6 +38,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageInflicted: 10
   ammoVelocity: 100
+--- !u!114 &3246702749288240864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815026171546111239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57cae81aa8f86a42b99a114dc466015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layersToTrigger:
+    serializedVersion: 2
+    m_Bits: 7943
+  particlePrefab: {fileID: 3395277213907615723, guid: 43fc3039efcb5794ebabd7ffd4c94cc3,
+    type: 3}
 --- !u!1001 &2976573588134904311
 PrefabInstance:
   m_ObjectHideFlags: 0

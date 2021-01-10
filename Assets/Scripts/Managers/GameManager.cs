@@ -18,6 +18,7 @@ namespace DemoShooter.Managers
         public event GameFinishHandler OnGameLost;
 
         private bool _isFinished = false;
+        public bool IsFinished => _isFinished;
         
         public static GameManager instance;
         private void Awake()

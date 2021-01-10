@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -1723059023608973774}
   - component: {fileID: -185265781250089836}
   - component: {fileID: 4950414460439901161}
+  - component: {fileID: -8126396094207097535}
   m_Layer: 11
   m_Name: PlayerKinematicBullet
   m_TagString: Untagged
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageInflicted: 50
-  ammoVelocity: 200
+  ammoVelocity: 150
 --- !u!114 &-1723059023608973774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +166,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendTriggerMessage: 0
-  layerMask:
+  layersToCheck:
     serializedVersion: 2
-    m_Bits: 5431
+    m_Bits: 5383
   skinWidth: 0.1
+--- !u!114 &-8126396094207097535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802445852349460480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57cae81aa8f86a42b99a114dc466015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layersToTrigger:
+    serializedVersion: 2
+    m_Bits: 5383
+  particlePrefab: {fileID: 3395277213907615723, guid: 43fc3039efcb5794ebabd7ffd4c94cc3,
+    type: 3}

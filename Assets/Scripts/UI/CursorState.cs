@@ -22,9 +22,9 @@ namespace DemoShooter.UI
             PauseManager.instance.OnPauseToggle -= ToggleCursorState;
         }
 
-        private void ToggleCursorState()
+        private void ToggleCursorState(bool pauseState)
         {
-            if (PauseManager.instance.IsPaused)
+            if (pauseState)
                 ChangeCursorState(CursorLockMode.None,true);
             else
                 ChangeCursorState(CursorLockMode.Locked,false);

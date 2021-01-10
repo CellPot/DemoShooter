@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Security.Cryptography;
+using DemoShooter.EffectControllers;
 using UnityEngine;
 
 namespace DemoShooter.Characters
 {
     [RequireComponent(typeof(Health))]
-    public class DestroyOnBreak : MonoBehaviour, IEffectOnBreak
+    public class DestroyOnBreak : MonoBehaviour, IEffectOnEvent
     {
         [SerializeField] private float destroyDelay = 0f;
         private Health _objectHealth;
@@ -14,15 +15,15 @@ namespace DemoShooter.Characters
         private void Awake()
         {
             _objectHealth = GetComponent<Health>();
-            _objectHealth.OnZeroHealth += OnObjectBreak;
+            _objectHealth.OnZeroHealth += ActivateEffect;
         }
 
         private void OnDestroy()
         {
-            _objectHealth.OnZeroHealth -= OnObjectBreak;
+            _objectHealth.OnZeroHealth -= ActivateEffect;
         }
 
-        public void OnObjectBreak()
+        public void ActivateEffect()
         {
             StartCoroutine(DestroyCoroutine());
         }
